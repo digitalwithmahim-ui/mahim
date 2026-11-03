@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="bn" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Admin — Md. Mahim Hossain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#d4a017;--gold-light:#f0c14b;--gold-dark:#a67c00;--bg:#0a0a0a;--bg-2:#111;--surface:#161616;--surface-2:#1f1f1f;--text:#fff;--text-2:#b8b8b8;--text-3:#808080;--border:#2a2a2a;--border-2:#333;--danger:#e53e3e;--success:#38a169;--radius:12px}
+[data-theme="light"]{--bg:#fafafa;--bg-2:#f0f0f0;--surface:#fff;--surface-2:#f7f7f7;--text:#0a0a0a;--text-2:#4a4a4a;--text-3:#808080;--border:#e0e0e0;--border-2:#d0d0d0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter','Hind Siliguri',system-ui,sans-serif;background:var(--bg-2);color:var(--text);line-height:1.6;font-size:15px}
+a{color:inherit}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,textarea,select{width:100%;padding:11px 14px;background:var(--bg-2);border:1px solid var(--border);border-radius:10px;color:var(--text);font:inherit;font-size:.95rem}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,160,23,.15)}
+label{font-weight:600;font-size:.85rem;display:block;margin-bottom:6px;color:var(--text-2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 20px;border-radius:10px;font-weight:600;font-size:.9rem;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#000;min-height:42px;transition:all .2s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(212,160,23,.3)}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.btn-outline{background:transparent;color:var(--text);border:1.5px solid var(--border-2)}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);box-shadow:none}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-sm{padding:7px 12px;font-size:.82rem;min-height:34px}
+.login-wrap{min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 50% 0%,rgba(212,160,23,.15),transparent 60%),var(--bg)}
+.login-card{width:100%;max-width:400px;background:var(--surface);padding:36px;border-radius:16px;border:1px solid var(--border);box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.login-card h1{margin-bottom:6px;font-size:1.5rem}
+.login-card .sub{color:var(--text-2);font-size:.9rem;margin-bottom:24px}
+.login-card .logo-lg{width:56px;height:56px;border-radius:14px;margin-bottom:20px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#000;display:grid;place-items:center;font-weight:900;font-size:1.2rem}
+.admin{display:none;min-height:100vh}
+.admin.active{display:block}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 0;position:sticky;top:0;z-index:10}
+.topbar-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.topbar h1{font-size:1.1rem;display:flex;align-items:center;gap:10px}
+.topbar h1 .mark{width:32px;height:32px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#000;font-weight:900;font-size:.8rem}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:28px 0 20px;border-bottom:1px solid var(--border)}
+.tab{padding:10px 16px;border-radius:10px 10px 0 0;font-weight:600;font-size:.88rem;color:var(--text-3);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s}
+.tab:hover{color:var(--text-2)}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold);background:rgba(212,160,23,.05)}
+.panel{display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:24px}
+.panel.active{display:block}
+.panel h2{font-size:1.15rem;margin-bottom:20px;display:flex;align-items:center;gap:10px;justify-content:space-between;flex-wrap:wrap}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px 60px}
+.field{margin-bottom:16px}
+.row{display:grid;gap:14px}
+@media(min-width:640px){.row-2{grid-template-columns:1fr 1fr}.row-3{grid-template-columns:1fr 1fr 1fr}}
+.item{border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:14px;background:var(--bg-2)}
+.item-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.item-head strong{font-size:.95rem}
+.lead-item .meta{font-size:.82rem;color:var(--text-3);margin-top:6px}
+.lead-item .actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.badge{display:inline-block;padding:3px 10px;font-size:.72rem;border-radius:999px;font-weight:700;text-transform:uppercase}
+.badge-new{background:rgba(212,160,23,.15);color:var(--gold)}
+.badge-done{background:rgba(56,161,105,.15);color:#4ade80}
+.empty{text-align:center;color:var(--text-3);padding:40px 20px;font-size:.9rem}
+.hint{font-size:.85rem;color:var(--text-3);margin-top:6px;line-height:1.5}
+.section-divider{border:none;border-top:1px solid var(--border);margin:32px 0}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.status-bar{padding:10px 14px;border-radius:8px;font-size:.85rem;margin-bottom:16px;font-weight:600;display:none}
+.status-bar.show{display:block}
+.status-bar.info{background:rgba(212,160,23,.1);color:var(--gold)}
+.status-bar.success{background:rgba(56,161,105,.15);color:#4ade80}
+.status-bar.error{background:rgba(229,62,62,.15);color:#fca5a5}
+.group-title{font-size:1rem;font-weight:700;color:var(--gold);margin:24px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.group-title:first-child{margin-top:0}
+</style>
+</head>
+<body>
+
+<div class="login-wrap" id="loginScreen">
+  <form class="login-card" id="loginForm" autocomplete="off">
+    <div class="logo-lg">MH</div>
+    <h1>Admin Panel</h1>
+    <p class="sub">ম্যানেজমেন্ট প্যানেলে প্রবেশ করুন</p>
+    <div class="field"><label for="pass">Password</label><input type="password" id="pass" required autocomplete="current-password" /></div>
+    <button class="btn" style="width:100%" type="submit">Login</button>
+    <p class="hint" style="margin-top:16px">ডিফল্ট: <code style="color:var(--gold)">mahim2024</code></p>
+    <p id="loginError" style="color:var(--danger);margin-top:10px;display:none;font-weight:600">ভুল পাসওয়ার্ড।</p>
+  </form>
+</div>
+
+<div class="admin" id="adminScreen">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <h1><span class="mark">MH</span> Admin — Md. Mahim Hossain</h1>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <a href="index.html" class="btn btn-outline btn-sm" target="_blank" rel="noopener">View Site</a>
+        <button class="btn btn-outline btn-sm" id="refreshBtn">🔄 Refresh</button>
+        <button class="btn btn-outline btn-sm" id="themeToggle">🌓</button>
+        <button class="btn btn-outline btn-sm" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div id="statusBar" class="status-bar"></div>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="leads">📥 Leads</button>
+      <button class="tab" data-tab="profile">👤 Profile</button>
+      <button class="tab" data-tab="texts">✏️ Texts</button>
+      <button class="tab" data-tab="categories">🏷️ Categories</button>
+      <button class="tab" data-tab="services">💼 Services</button>
+      <button class="tab" data-tab="skills">🧠 Skills</button>
+      <button class="tab" data-tab="projects">📁 Projects</button>
+      <button class="tab" data-tab="experience">🏢 Experience</button>
+      <button class="tab" data-tab="reviews">⭐ Reviews</button>
+      <button class="tab" data-tab="pricing">💰 Pricing</button>
+      <button class="tab" data-tab="faq">❓ FAQ</button>
+      <button class="tab" data-tab="settings">⚙️ Settings</button>
+    </div>
+
+    <div class="panel active" data-panel="leads">
+      <h2>📥 Incoming Leads <button class="btn btn-outline btn-sm" id="exportLeads">⬇️ CSV</button></h2>
+      <div id="leadsList"></div>
+    </div>
+
+    <div class="panel" data-panel="profile">
+      <h2>👤 Profile & Stats</h2>
+      <div class="field"><label>Profile Image URL (Imgur)</label><input type="text" id="p_image" placeholder="https://i.imgur.com/AbCdEfG.jpg" /><p class="hint">Imgur-এ ছবি আপলোড করে Direct Link কপি করুন।</p></div>
+      <div class="field"><label>Full Name</label><input type="text" id="p_name" /></div>
+      <div class="row row-2">
+        <div class="field"><label>Role (BN)</label><input type="text" id="p_role_bn" /></div>
+        <div class="field"><label>Role (EN)</label><input type="text" id="p_role_en" /></div>
+      </div>
+      <div class="row row-2">
+        <div class="field"><label>Bio (BN)</label><textarea id="p_bio_bn" rows="2"></textarea></div>
+        <div class="field"><label>Bio (EN)</label><textarea id="p_bio_en" rows="2"></textarea></div>
+      </div>
+      <div class="row row-2">
+        <div class="field"><label>Typing Roles (BN) — comma separated</label><input type="text" id="p_typed_bn" /></div>
+        <div class="field"><label>Typing Roles (EN) — comma separated</label><input type="text" id="p_typed_en" /></div>
+      </div>
+      <hr class="section-divider" />
+      <h2>🔗 Social Links</h2>
+      <div class="row row-2">
+        <div class="field"><label>Facebook URL</label><input type="url" id="p_facebook" placeholder="https://www.facebook.com/your-id" /></div>
+        <div class="field"><label>LinkedIn URL</label><input type="url" id="p_linkedin" placeholder="https://www.linkedin.com/in/your-id" /></div>
+      </div>
+      <hr class="section-divider" />
+      <h2>📞 Contact & Stats</h2>
+      <div class="row row-2">
+        <div class="field"><label>Email</label><input type="email" id="p_email" /></div>
+        <div class="field"><label>Phone</label><input type="text" id="p_phone" /></div>
+      </div>
+      <div class="row row-2">
+        <div class="field"><label>WhatsApp (with country code)</label><input type="text" id="p_whatsapp" placeholder="8801XXXXXXXXX" /></div>
+        <div class="field"><label>Location</label><input type="text" id="p_location" /></div>
+      </div>
+      <div class="row row-2">
+        <div class="field"><label>Projects (e.g. "50+")</label><input type="text" id="s_projects" /></div>
+        <div class="field"><label>Clients</label><input type="text" id="s_clients" /></div>
+      </div>
+      <div class="row row-2">
+        <div class="field"><label>Years Experience</label><input type="text" id="s_years" /></div>
+        <div class="field"><label>Awards</label><input type="text" id="s_awards" /></div>
+      </div>
+      <button class="btn" id="saveProfile">💾 Save to Google Sheet</button>
+    </div>
+
+    <div class="panel" data-panel="texts">
+      <h2>✏️ Page Texts — BN / EN</h2>
+      <p class="hint">সব section-এর টেক্সট এখান থেকে।</p>
+      <div id="textsEditor" style="margin-top:20px"></div>
+      <button class="btn" id="saveTexts" style="margin-top:14px">💾 Save All Texts</button>
+    </div>
+
+    <div class="panel" data-panel="categories">
+      <h2>🏷️ Project Categories</h2>
+      <p class="hint">এই category গুলো Projects section-এ filter button হিসেবে দেখাবে। <b>slug</b> ছোট হাতের ইংরেজি, hyphen দিয়ে (যেমন <code>facebook-ads</code>)। <b>slug অবশ্যই Projects-এর category column-এর সাথে হুবহু মিলতে হবে।</b></p>
+      <div id="categoriesEditor" style="margin-top:20px"></div>
+      <div class="btn-row">
+        <button class="btn btn-outline" id="addCategory">+ Add Category</button>
+        <button class="btn" id="saveCategories">💾 Save</button>
+      </div>
+    </div>
+
+    <div class="panel" data-panel="services">
+      <h2>💼 Services</h2>
+      <div id="servicesEditor" style="margin-top:20px"></div>
+      <div class="btn-row">
+        <button class="btn btn-outline" id="addService">+ Add Service</button>
+        <button class="btn" id="saveServices">💾 Save</button>
+      </div>
+    </div>
+
+    <div class="panel" data-panel="skills">
+      <h2>🧠 Skills</h2>
+      <div id="skillsEditor" style="margin-top:20px"></div>
+      <div class="btn-row">
+        <button class="btn btn-outline" id="addSkill">+ Add Skill</button>
+        <button class="btn" id="saveSkills">💾 Save</button>
+      </div>
+    </div>
+
+    <div class="panel" data-panel="projects">
+      <h2>📁 Projects</h2>
+      <div id="projectsEditor" style="margin-top:20px"></div>
+      <div class="btn-row">
+        <button class="btn btn-outline" id="addProject">+ Add Project</button>
+        <button class="btn" id="saveProjects">💾 Save</button>
+      </div>
+    </div>
+
+    <div class="panel" data-panel="experience">
+      <h2>💼 Work Experience</h2>
+      <div id="expWorkEditor"></div>
+      <div class="btn-row">
+        <button class="btn btn-outline" id="addExpWork">+ Add Work</button>
+        <button class="btn" id="saveExpWork">💾 Save Work</button>
+      </div>
+      <hr class="section-divider" />
+      <h2>🎓 Education</h2>
+      <div id="expEduEditor"></div>
+      <div class="btn-row">
+        <button class="btn btn-outline" id="addExpEdu">+ Add Education</button>
+        <button class="btn" id="saveExpEdu">💾 Save Education</button>
+      </div>
+    </div>
+
+    <div class="panel" data-panel="reviews">
+      <h2>⭐ Reviews</h2>
+      <div id="reviewsEditor" style="margin-top:20px"></div>
+      <div class="btn-row">
+        <button class="btn btn-outline" id="addReview">+ Add Review</button>
+        <button class="btn" id="saveReviews">💾 Save</button>
+      </div>
+    </div>
+
+    <div class="panel" data-panel="pricing">
+      <h2>💰 Pricing</h2>
+      <div id="pricingEditor" style="margin-top:20px"></div>
+      <div class="btn-row">
+        <button class="btn btn-outline" id="addPricing">+ Add Package</button>
+        <button class="btn" id="savePricing">💾 Save</button>
+      </div>
+    </div>
+
+    <div class="panel" data-panel="faq">
+      <h2>❓ FAQ</h2>
+      <div id="faqEditor" style="margin-top:20px"></div>
+      <div class="btn-row">
+        <button class="btn btn-outline" id="addFaq">+ Add FAQ</button>
+        <button class="btn" id="saveFaq">💾 Save</button>
+      </div>
+    </div>
+
+    <div class="panel" data-panel="settings">
+      <h2>🔐 Password</h2>
+      <div class="field"><label>New Password (browser-local)</label><input type="password" id="newPass" /></div>
+      <button class="btn" id="savePass">🔐 Update</button>
+      <hr class="section-divider" />
+      <h2>🔗 API</h2>
+      <div class="field"><label>Apps Script URL</label><input type="text" id="apiUrlShow" readonly /></div>
+      <div class="field"><label>Admin Token</label><input type="text" id="tokenShow" readonly /></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbzAx0xL08IfBIUohqdBl0zpLS2-A__z7p5bbsmurxFvWOArUbCtc-4YlG_53PNRAXL9jg/exec";
+const ADMIN_TOKEN = "MahimPortfolio2024_x7k9q2w5";
+const KEY_THEME = "mh_theme";
+const KEY_AUTH = "mh_admin_auth";
+const KEY_PASS = "mh_admin_pass";
+const DEFAULT_PASS = "mahim2024";
+
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+function escapeHtml(s){ return String(s??"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function escapeAttr(s){ return escapeHtml(s).replace(/"/g,"&quot;"); }
+function status(msg, type){
+  const el = $("#statusBar"); if (!el) return;
+  el.className = "status-bar show " + (type||"info");
+  el.textContent = msg;
+  if (type === "success") setTimeout(()=>el.classList.remove("show"), 3500);
+}
+async function apiGet(action, token){
+  let url = API_URL + "?action=" + action + "&t=" + Date.now();
+  if (token) url += "&token=" + encodeURIComponent(token);
+  const res = await fetch(url);
+  return await res.json();
+}
+async function apiPost(body){
+  const res = await fetch(API_URL, { method:"POST", headers:{ "Content-Type":"text/plain;charset=utf-8" }, body: JSON.stringify(body) });
+  return await res.json();
+}
+function notifyLanding(){ try{ localStorage.removeItem("mh_site_data_v6"); localStorage.setItem("mh_data_updated", Date.now().toString()); }catch(e){} }
+
+let siteData = {
+  profile:{ name:"", email:"", phone:"", whatsapp:"", location:"", image:"",
+    role_bn:"", role_en:"", bio_bn:"", bio_en:"", typed_roles_bn:"", typed_roles_en:"",
+    facebook_url:"", linkedin_url:"",
+    stats:{ projects:"", clients:"", years:"", awards:"" } },
+  texts:{}, services:[], skills:[], projects:[], categories:[], experienceWork:[], experienceEdu:[],
+  reviews:[], pricing:[], faqs:[], leads:[]
+};
+let draftServices=[], draftSkills=[], draftProjects=[], draftCategories=[];
+let draftExpWork=[], draftExpEdu=[];
+let draftReviews=[], draftPricing=[], draftFaqs=[];
+let draftTexts={};
+
+const auth = {
+  isLoggedIn: () => sessionStorage.getItem(KEY_AUTH) === "1",
+  login: (pass) => pass === (localStorage.getItem(KEY_PASS) || DEFAULT_PASS),
+  set: () => sessionStorage.setItem(KEY_AUTH, "1"),
+  clear: () => sessionStorage.removeItem(KEY_AUTH)
+};
+function showAdmin(){ $("#loginScreen").style.display="none"; $("#adminScreen").classList.add("active"); initAdmin(); }
+function showLogin(){ $("#loginScreen").style.display=""; $("#adminScreen").classList.remove("active"); }
+
+function initTabs(){
+  $$(".tab").forEach(t=>{
+    t.addEventListener("click", ()=>{
+      const tab = t.dataset.tab;
+      $$(".tab").forEach(x=>x.classList.toggle("active", x === t));
+      $$(".panel").forEach(p=>p.classList.toggle("active", p.dataset.panel === tab));
+    });
+  });
+}
+
+function renderLeads(){
+  const box = $("#leadsList");
+  const leads = siteData.leads || [];
+  if (!leads.length) { box.innerHTML = `<div class="empty">কোনো লিড নেই।</div>`; return; }
+  box.innerHTML = leads.map(l=>`
+    <div class="item lead-item" data-id="${l.id}">
+      <div class="item-head">
+        <strong>${escapeHtml(l.name)} — ${escapeHtml(l.phone)}</strong>
+        <span class="badge badge-${l.status==="done"?"done":"new"}">${l.status || "new"}</span>
+      </div>
+      <div class="meta">${escapeHtml(l.email||"")} • ${escapeHtml(l.service||"")} • ${l.date?new Date(l.date).toLocaleString():""}</div>
+      ${l.message ? `<div style="margin-top:10px">${escapeHtml(l.message)}</div>` : ""}
+      <div class="actions">
+        <a class="btn btn-outline btn-sm" href="tel:${escapeHtml(l.phone)}">📞 Call</a>
+        <a class="btn btn-outline btn-sm" href="https://wa.me/${escapeHtml(String(l.phone).replace(/\D/g,''))}" target="_blank" rel="noopener">💬 WhatsApp</a>
+        <button class="btn btn-sm" data-act="toggle">${l.status==="done"?"Mark New":"Mark Done"}</button>
+        <button class="btn btn-danger btn-sm" data-act="del">Delete</button>
+      </div>
+    </div>`).join("");
+  box.querySelectorAll("[data-act]").forEach(b=>{
+    b.addEventListener("click", async ()=>{
+      const id = b.closest(".lead-item").dataset.id;
+      if (b.dataset.act === "del"){
+        if (!confirm("Delete?")) return;
+        const r = await apiPost({ action:"deleteLead", id, token:ADMIN_TOKEN });
+        if (r.ok){ status("✅ Deleted","success"); await refreshLeads(); } else status("❌ "+(r.error||"Failed"),"error");
+      } else {
+        const cur = siteData.leads.find(x=>String(x.id)===String(id));
+        const ns = cur && cur.status==="done" ? "new" : "done";
+        const r = await apiPost({ action:"updateLead", id, status:ns, token:ADMIN_TOKEN });
+        if (r.ok){ status("✅ Updated","success"); await refreshLeads(); } else status("❌ "+(r.error||"Failed"),"error");
+      }
+    });
+  });
+}
+async function refreshLeads(){
+  const r = await apiGet("leads", ADMIN_TOKEN);
+  if (r && r.ok) { siteData.leads = r.leads || []; renderLeads(); }
+}
+
+function loadProfile(){
+  const p = siteData.profile || {};
+  $("#p_image").value = p.image || "";
+  $("#p_name").value = p.name || "";
+  $("#p_role_bn").value = p.role_bn || "";
+  $("#p_role_en").value = p.role_en || "";
+  $("#p_bio_bn").value = p.bio_bn || "";
+  $("#p_bio_en").value = p.bio_en || "";
+  $("#p_typed_bn").value = p.typed_roles_bn || "";
+  $("#p_typed_en").value = p.typed_roles_en || "";
+  $("#p_facebook").value = p.facebook_url || "";
+  $("#p_linkedin").value = p.linkedin_url || "";
+  $("#p_email").value = p.email || "";
+  $("#p_phone").value = p.phone || "";
+  $("#p_whatsapp").value = p.whatsapp || "";
+  $("#p_location").value = p.location || "";
+  $("#s_projects").value = (p.stats && p.stats.projects) || "";
+  $("#s_clients").value = (p.stats && p.stats.clients) || "";
+  $("#s_years").value = (p.stats && p.stats.years) || "";
+  $("#s_awards").value = (p.stats && p.stats.awards) || "";
+}
+
+const TEXT_GROUPS = [
+  { name: "🦸 Hero", keys: [
+    ["hero_badge","Badge Text"],["hero_greet","Greeting"],
+    ["hero_role_prefix","Role Prefix"],["hero_lead","Lead Paragraph"],
+    ["hero_cta1","Button 1"],["hero_cta2","Button 2"],
+    ["stat_1_lbl","Stat 1 Label"],["stat_2_lbl","Stat 2 Label"],
+    ["stat_3_lbl","Stat 3 Label"],["stat_4_lbl","Stat 4 Label"]
+  ]},
+  { name: "👤 Profile Card", keys: [
+    ["profile_role","Role"],["profile_bio","Bio"],
+    ["pi_name","Info: Name Label"],["pi_email","Info: Email Label"],
+    ["pi_phone","Info: Phone Label"],["pi_location","Info: Location Label"],
+    ["pi_status","Info: Status Label"],["pi_available","Info: Available Value"]
+  ]},
+  { name: "📖 About", keys: [
+    ["about_kicker","Kicker"],["about_h2_a","Heading Part 1"],["about_h2_b","Heading Part 2 (accent)"],
+    ["about_h3","Sub-heading"],["about_p1","Paragraph 1"],["about_p2","Paragraph 2"],
+    ["about_l1","Bullet 1"],["about_l2","Bullet 2"],["about_l3","Bullet 3"],["about_l4","Bullet 4"]
+  ]},
+  { name: "💼 Services", keys: [
+    ["services_kicker","Kicker"],["services_h2_a","Heading Part 1"],["services_h2_b","Heading Part 2"],["services_p","Subtitle"]
+  ]},
+  { name: "🧠 Skills", keys: [
+    ["skills_kicker","Kicker"],["skills_h2_a","Heading Part 1"],["skills_h2_b","Heading Part 2"]
+  ]},
+  { name: "📁 Work", keys: [
+    ["work_kicker","Kicker"],["work_h2_a","Heading Part 1"],["work_h2_b","Heading Part 2"],["work_p","Subtitle"]
+  ]},
+  { name: "🏢 Experience", keys: [
+    ["exp_kicker","Kicker"],["exp_h2_a","Heading Part 1"],["exp_h2_b","Heading Part 2"],
+    ["exp_work","Work Column Title"],["exp_edu","Education Column Title"]
+  ]},
+  { name: "⭐ Reviews", keys: [
+    ["proof_kicker","Kicker"],["proof_h2_a","Heading Part 1"],["proof_h2_b","Heading Part 2"]
+  ]},
+  { name: "💰 Pricing", keys: [
+    ["pricing_kicker","Kicker"],["pricing_h2_a","Heading Part 1"],["pricing_h2_b","Heading Part 2"],["pricing_p","Subtitle"]
+  ]},
+  { name: "❓ FAQ", keys: [
+    ["faq_kicker","Kicker"],["faq_h2_a","Heading Part 1"],["faq_h2_b","Heading Part 2"]
+  ]},
+  { name: "🎯 CTA", keys: [
+    ["cta_h2","Heading"],["cta_p","Paragraph"],["cta_btn1","Button 1"],["cta_btn2","Button 2"]
+  ]},
+  { name: "📞 Contact", keys: [
+    ["contact_kicker","Kicker"],["contact_h3","Heading"],["contact_p","Subtitle"],
+    ["c_addr","Address Label"],["c_email","Email Label"],["c_phone","Phone Label"],
+    ["form_h3","Form Title"],["form_p","Form Subtitle"],
+    ["form_name","Field: Name"],["form_phone","Field: Phone"],["form_email","Field: Email"],
+    ["form_service","Field: Service"],["form_message","Field: Message"],["form_submit","Submit Button"]
+  ]},
+  { name: "🔗 Footer", keys: [
+    ["footer_about","About Text"],["footer_nav","Nav Column Title"],["footer_services","Services Column Title"],
+    ["footer_contact","Contact Column Title"],["footer_admin","Admin Link Text"],
+    ["footer_rights","Rights Text"],["nav_about","Nav: About"],["nav_services","Nav: Services"],
+    ["nav_skills","Nav: Skills"],["nav_work","Nav: Work"],["nav_pricing","Nav: Pricing"],
+    ["nav_faq","Nav: FAQ"],["nav_contact","Nav: Contact"],["nav_cta","Nav: CTA Button"],
+    ["sticky_call","Sticky: CTA"],["sticky_wa","Sticky: WhatsApp"]
+  ]}
+];
+
+function renderTextsEditor(){
+  const box = $("#textsEditor");
+  let html = "";
+  TEXT_GROUPS.forEach(group=>{
+    html += `<div class="group-title">${group.name}</div>`;
+    group.keys.forEach(([key,label])=>{
+      const bnVal = draftTexts[key+"_bn"] || "";
+      const enVal = draftTexts[key+"_en"] || "";
+      html += `
+        <div class="row row-2" style="margin-bottom:12px">
+          <div class="field" style="margin:0"><label>${label} (BN)</label><input data-tkey="${key}_bn" value="${escapeAttr(bnVal)}" /></div>
+          <div class="field" style="margin:0"><label>${label} (EN)</label><input data-tkey="${key}_en" value="${escapeAttr(enVal)}" /></div>
+        </div>`;
+    });
+  });
+  box.innerHTML = html;
+  box.querySelectorAll("[data-tkey]").forEach(el=>{
+    el.addEventListener("input", ()=>{ draftTexts[el.dataset.tkey] = el.value; });
+  });
+}
+
+function renderCategoriesEditor(){
+  const box = $("#categoriesEditor");
+  if (!draftCategories.length){ box.innerHTML = `<div class="empty">No categories yet.</div>`; return; }
+  box.innerHTML = draftCategories.map((c,i)=>`
+    <div class="item">
+      <div class="row row-3">
+        <div class="field"><label>Name (BN)</label><input data-i="${i}" data-k="name_bn" value="${escapeAttr(c.name_bn)}" /></div>
+        <div class="field"><label>Name (EN)</label><input data-i="${i}" data-k="name_en" value="${escapeAttr(c.name_en)}" /></div>
+        <div class="field"><label>Slug (unique, lowercase)</label><input data-i="${i}" data-k="slug" value="${escapeAttr(c.slug)}" placeholder="facebook-ads" /></div>
+      </div>
+      <p class="hint">Slug অবশ্যই Projects-এর <b>category</b> কলামে যেভাবে লেখা আছে, হুবহু সেভাবে লিখুন।</p>
+      <button class="btn btn-danger btn-sm" data-del="${i}">Delete</button>
+    </div>`).join("");
+  box.querySelectorAll("input").forEach(el=>el.addEventListener("input", ()=>{
+    const i=+el.dataset.i, k=el.dataset.k;
+    draftCategories[i][k] = el.value;
+  }));
+  box.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click", ()=>{
+    draftCategories.splice(+b.dataset.del,1); renderCategoriesEditor();
+  }));
+}
+
+function renderServicesEditor(){
+  const box = $("#servicesEditor");
+  if (!draftServices.length){ box.innerHTML = `<div class="empty">No services.</div>`; return; }
+  box.innerHTML = draftServices.map((s,i)=>`
+    <div class="item">
+      <div class="item-head">
+        <strong>Service #${i+1}</strong>
+        <label style="display:flex;align-items:center;gap:8px;font-weight:600;margin:0;cursor:pointer">
+          <input type="checkbox" data-i="${i}" data-k="popular" ${s.popular?"checked":""} style="width:auto" /> Popular
+        </label>
+      </div>
+      <div class="row row-3">
+        <div class="field"><label>Icon</label><input data-i="${i}" data-k="icon" value="${escapeAttr(s.icon)}" /></div>
+        <div class="field"><label>Title (BN)</label><input data-i="${i}" data-k="title_bn" value="${escapeAttr(s.title_bn)}" /></div>
+        <div class="field"><label>Title (EN)</label><input data-i="${i}" data-k="title_en" value="${escapeAttr(s.title_en)}" /></div>
+      </div>
+      <div class="row row-2">
+        <div class="field"><label>Desc (BN)</label><textarea data-i="${i}" data-k="desc_bn" rows="2">${escapeHtml(s.desc_bn)}</textarea></div>
+        <div class="field"><label>Desc (EN)</label><textarea data-i="${i}" data-k="desc_en" rows="2">${escapeHtml(s.desc_en)}</textarea></div>
+      </div>
+      <div class="row row-3">
+        <div class="field"><label>Price</label><input data-i="${i}" data-k="price" value="${escapeAttr(s.price)}" /></div>
+        <div class="field"><label>Per (BN)</label><input data-i="${i}" data-k="per_bn" value="${escapeAttr(s.per_bn)}" /></div>
+        <div class="field"><label>Per (EN)</label><input data-i="${i}" data-k="per_en" value="${escapeAttr(s.per_en)}" /></div>
+      </div>
+      <button class="btn btn-danger btn-sm" data-del="${i}">Delete</button>
+    </div>`).join("");
+  box.querySelectorAll("input,textarea").forEach(el=>{
+    const h = ()=>{ const i=+el.dataset.i, k=el.dataset.k; draftServices[i][k] = el.type==="checkbox" ? el.checked : el.value; };
+    el.addEventListener("input", h); el.addEventListener("change", h);
+  });
+  box.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click", ()=>{ draftServices.splice(+b.dataset.del,1); renderServicesEditor(); }));
+}
+
+function renderSkillsEditor(){
+  const box = $("#skillsEditor");
+  if (!draftSkills.length){ box.innerHTML = `<div class="empty">No skills.</div>`; return; }
+  box.innerHTML = draftSkills.map((s,i)=>`
+    <div class="item">
+      <div class="row row-2">
+        <div class="field"><label>Name</label><input data-i="${i}" data-k="name" value="${escapeAttr(s.name)}" /></div>
+        <div class="field"><label>Percent</label><input type="number" min="0" max="100" data-i="${i}" data-k="percent" value="${escapeAttr(s.percent)}" /></div>
+      </div>
+      <button class="btn btn-danger btn-sm" data-del="${i}">Delete</button>
+    </div>`).join("");
+  box.querySelectorAll("input").forEach(el=>el.addEventListener("input", ()=>{ const i=+el.dataset.i, k=el.dataset.k; draftSkills[i][k] = k==="percent" ? +el.value : el.value; }));
+  box.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click", ()=>{ draftSkills.splice(+b.dataset.del,1); renderSkillsEditor(); }));
+}
+
+function renderProjectsEditor(){
+  const box = $("#projectsEditor");
+  if (!draftProjects.length){ box.innerHTML = `<div class="empty">No projects.</div>`; return; }
+  box.innerHTML = draftProjects.map((p,i)=>`
+    <div class="item">
+      <div class="row row-2">
+        <div class="field"><label>Title (BN)</label><input data-i="${i}" data-k="title_bn" value="${escapeAttr(p.title_bn)}" /></div>
+        <div class="field"><label>Title (EN)</label><input data-i="${i}" data-k="title_en" value="${escapeAttr(p.title_en)}" /></div>
+      </div>
+      <div class="row row-2">
+        <div class="field"><label>Desc (BN)</label><textarea data-i="${i}" data-k="desc_bn" rows="2">${escapeHtml(p.desc_bn)}</textarea></div>
+        <div class="field"><label>Desc (EN)</label><textarea data-i="${i}" data-k="desc_en" rows="2">${escapeHtml(p.desc_en)}</textarea></div>
+      </div>
+      <div class="row row-2">
+        <div class="field"><label>Category (slug)</label><input data-i="${i}" data-k="category" value="${escapeAttr(p.category)}" placeholder="seo / facebook-ads" /></div>
+        <div class="field"><label>Thumb Label (Fallback text)</label><input data-i="${i}" data-k="thumb" value="${escapeAttr(p.thumb)}" /></div>
+      </div>
+      <div class="field">
+        <label>Project Image URL (Imgur)</label>
+        <input data-i="${i}" data-k="image" value="${escapeAttr(p.image)}" placeholder="https://i.imgur.com/AbCdEfG.jpg" />
+        <p class="hint">Imgur-এ স্ক্রিনশট আপলোড করে Direct Link কপি করুন।</p>
+      </div>
+      <div class="field">
+        <label>Project Link (optional)</label>
+        <input data-i="${i}" data-k="link" value="${escapeAttr(p.link)}" placeholder="https://example.com/case-study" />
+        <p class="hint">Live demo বা case study লিংক। খালি রাখলে কোনো বাটন দেখাবে না।</p>
+      </div>
+      <button class="btn btn-danger btn-sm" data-del="${i}">Delete</button>
+    </div>`).join("");
+  box.querySelectorAll("input,textarea").forEach(el=>el.addEventListener("input", ()=>{ const i=+el.dataset.i, k=el.dataset.k; draftProjects[i][k] = el.value; }));
+  box.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click", ()=>{ draftProjects.splice(+b.dataset.del,1); renderProjectsEditor(); }));
+}
+
+function renderExpEditor(arr, boxId, prefix){
+  const box = $(boxId);
+  if (!arr.length){ box.innerHTML = `<div class="empty">No entries.</div>`; return; }
+  box.innerHTML = arr.map((x,i)=>`
+    <div class="item">
+      <div class="row row-2">
+        <div class="field"><label>Year</label><input data-i="${i}" data-k="year" data-prefix="${prefix}" value="${escapeAttr(x.year)}" /></div>
+        <div class="field"><label>Title (EN)</label><input data-i="${i}" data-k="title_en" data-prefix="${prefix}" value="${escapeAttr(x.title_en)}" /></div>
+      </div>
+      <div class="field"><label>Title (BN)</label><input data-i="${i}" data-k="title_bn" data-prefix="${prefix}" value="${escapeAttr(x.title_bn)}" /></div>
+      <div class="row row-2">
+        <div class="field"><label>Sub (BN)</label><input data-i="${i}" data-k="sub_bn" data-prefix="${prefix}" value="${escapeAttr(x.sub_bn)}" /></div>
+        <div class="field"><label>Sub (EN)</label><input data-i="${i}" data-k="sub_en" data-prefix="${prefix}" value="${escapeAttr(x.sub_en)}" /></div>
+      </div>
+      <div class="row row-2">
+        <div class="field"><label>Desc (BN)</label><textarea data-i="${i}" data-k="desc_bn" data-prefix="${prefix}" rows="2">${escapeHtml(x.desc_bn)}</textarea></div>
+        <div class="field"><label>Desc (EN)</label><textarea data-i="${i}" data-k="desc_en" data-prefix="${prefix}" rows="2">${escapeHtml(x.desc_en)}</textarea></div>
+      </div>
+      <button class="btn btn-danger btn-sm" data-del="${i}" data-prefix="${prefix}">Delete</button>
+    </div>`).join("");
+  box.querySelectorAll("input,textarea").forEach(el=>el.addEventListener("input", ()=>{
+    const i=+el.dataset.i, k=el.dataset.k, pr=el.dataset.prefix;
+    const t = pr==="work" ? draftExpWork : draftExpEdu;
+    t[i][k] = el.value;
+  }));
+  box.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click", ()=>{
+    const pr = b.dataset.prefix;
+    const t = pr==="work" ? draftExpWork : draftExpEdu;
+    t.splice(+b.dataset.del,1); renderExpEditor(t, boxId, prefix);
+  }));
+}
+
+function renderReviewsEditor(){
+  const box = $("#reviewsEditor");
+  if (!draftReviews.length){ box.innerHTML = `<div class="empty">No reviews.</div>`; return; }
+  box.innerHTML = draftReviews.map((r,i)=>`
+    <div class="item">
+      <div class="field"><label>Name</label><input data-i="${i}" data-k="name" value="${escapeAttr(r.name)}" /></div>
+      <div class="row row-2">
+        <div class="field"><label>Role (BN)</label><input data-i="${i}" data-k="role_bn" value="${escapeAttr(r.role_bn)}" /></div>
+        <div class="field"><label>Role (EN)</label><input data-i="${i}" data-k="role_en" value="${escapeAttr(r.role_en)}" /></div>
+      </div>
+      <div class="field"><label>Review (BN)</label><textarea data-i="${i}" data-k="text_bn" rows="2">${escapeHtml(r.text_bn)}</textarea></div>
+      <div class="field"><label>Review (EN)</label><textarea data-i="${i}" data-k="text_en" rows="2">${escapeHtml(r.text_en)}</textarea></div>
+      <button class="btn btn-danger btn-sm" data-del="${i}">Delete</button>
+    </div>`).join("");
+  box.querySelectorAll("input,textarea").forEach(el=>el.addEventListener("input", ()=>{ const i=+el.dataset.i, k=el.dataset.k; draftReviews[i][k] = el.value; }));
+  box.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click", ()=>{ draftReviews.splice(+b.dataset.del,1); renderReviewsEditor(); }));
+}
+
+function renderPricingEditor(){
+  const box = $("#pricingEditor");
+  if (!draftPricing.length){ box.innerHTML = `<div class="empty">No pricing.</div>`; return; }
+  box.innerHTML = draftPricing.map((p,i)=>`
+    <div class="item">
+      <div class="item-head">
+        <strong>Package #${i+1}</strong>
+        <label style="display:flex;align-items:center;gap:8px;font-weight:600;margin:0;cursor:pointer">
+          <input type="checkbox" data-i="${i}" data-k="popular" ${p.popular?"checked":""} style="width:auto" /> Popular
+        </label>
+      </div>
+      <div class="row row-2">
+        <div class="field"><label>Title (BN)</label><input data-i="${i}" data-k="title_bn" value="${escapeAttr(p.title_bn)}" /></div>
+        <div class="field"><label>Title (EN)</label><input data-i="${i}" data-k="title_en" value="${escapeAttr(p.title_en)}" /></div>
+      </div>
+      <div class="row row-3">
+        <div class="field"><label>Price</label><input data-i="${i}" data-k="price" value="${escapeAttr(p.price)}" /></div>
+        <div class="field"><label>Per (BN)</label><input data-i="${i}" data-k="per_bn" value="${escapeAttr(p.per_bn)}" /></div>
+        <div class="field"><label>Per (EN)</label><input data-i="${i}" data-k="per_en" value="${escapeAttr(p.per_en)}" /></div>
+      </div>
+      <div class="field"><label>Features (BN) — comma separated</label><textarea data-i="${i}" data-k="features_bn" rows="2">${escapeHtml((p.features_bn||[]).join(", "))}</textarea></div>
+      <div class="field"><label>Features (EN) — comma separated</label><textarea data-i="${i}" data-k="features_en" rows="2">${escapeHtml((p.features_en||[]).join(", "))}</textarea></div>
+      <button class="btn btn-danger btn-sm" data-del="${i}">Delete</button>
+    </div>`).join("");
+  box.querySelectorAll("input,textarea").forEach(el=>{
+    const h = ()=>{
+      const i=+el.dataset.i, k=el.dataset.k;
+      if (el.type==="checkbox") draftPricing[i][k] = el.checked;
+      else if (k==="features_bn" || k==="features_en") draftPricing[i][k] = el.value.split(",").map(x=>x.trim()).filter(Boolean);
+      else draftPricing[i][k] = el.value;
+    };
+    el.addEventListener("input", h); el.addEventListener("change", h);
+  });
+  box.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click", ()=>{ draftPricing.splice(+b.dataset.del,1); renderPricingEditor(); }));
+}
+
+function renderFaqEditor(){
+  const box = $("#faqEditor");
+  if (!draftFaqs.length){ box.innerHTML = `<div class="empty">No FAQs.</div>`; return; }
+  box.innerHTML = draftFaqs.map((f,i)=>`
+    <div class="item">
+      <div class="field"><label>Q (BN)</label><input data-i="${i}" data-k="q_bn" value="${escapeAttr(f.q_bn)}" /></div>
+      <div class="field"><label>Q (EN)</label><input data-i="${i}" data-k="q_en" value="${escapeAttr(f.q_en)}" /></div>
+      <div class="field"><label>A (BN)</label><textarea data-i="${i}" data-k="a_bn" rows="2">${escapeHtml(f.a_bn)}</textarea></div>
+      <div class="field"><label>A (EN)</label><textarea data-i="${i}" data-k="a_en" rows="2">${escapeHtml(f.a_en)}</textarea></div>
+      <button class="btn btn-danger btn-sm" data-del="${i}">Delete</button>
+    </div>`).join("");
+  box.querySelectorAll("input,textarea").forEach(el=>el.addEventListener("input", ()=>{ const i=+el.dataset.i, k=el.dataset.k; draftFaqs[i][k] = el.value; }));
+  box.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click", ()=>{ draftFaqs.splice(+b.dataset.del,1); renderFaqEditor(); }));
+}
+
+async function saveSection(name, rows){
+  status("💾 Saving " + name + "…", "info");
+  const r = await apiPost({ action:"saveSection", section:name, rows, token:ADMIN_TOKEN });
+  if (r && r.ok){ status("✅ " + name + " saved","success"); notifyLanding(); return true; }
+  status("❌ " + (r?.error||"Failed"), "error"); return false;
+}
+async function saveProfileRemote(profile){
+  status("💾 Saving…", "info");
+  const r = await apiPost({ action:"saveProfile", data:profile, token:ADMIN_TOKEN });
+  if (r && r.ok){ status("✅ Profile saved","success"); notifyLanding(); return true; }
+  status("❌ " + (r?.error||"Failed"), "error"); return false;
+}
+async function saveTextsRemote(texts){
+  status("💾 Saving texts…", "info");
+  const r = await apiPost({ action:"saveTexts", data:texts, token:ADMIN_TOKEN });
+  if (r && r.ok){ status("✅ Texts saved","success"); notifyLanding(); return true; }
+  status("❌ " + (r?.error||"Failed"), "error"); return false;
+}
+
+async function refreshFromSheet(){
+  status("⏳ Loading…","info");
+  const d = await apiGet("getAll");
+  if (!d || !d.ok){ status("❌ " + (d?.error||"Failed"),"error"); return; }
+  siteData = {
+    profile: d.profile || siteData.profile,
+    texts: d.texts || {},
+    services: d.services || [],
+    skills: d.skills || [],
+    projects: d.projects || [],
+    categories: d.categories || [],
+    experienceWork: d.experienceWork || [],
+    experienceEdu: d.experienceEdu || [],
+    reviews: d.reviews || [],
+    pricing: d.pricing || [],
+    faqs: d.faqs || [],
+    leads: siteData.leads || []
+  };
+  loadProfile();
+  draftTexts = JSON.parse(JSON.stringify(siteData.texts || {}));
+  draftServices = JSON.parse(JSON.stringify(siteData.services || []));
+  draftSkills = JSON.parse(JSON.stringify(siteData.skills || []));
+  draftProjects = JSON.parse(JSON.stringify(siteData.projects || []));
+  draftCategories = JSON.parse(JSON.stringify(siteData.categories || []));
+  draftExpWork = JSON.parse(JSON.stringify(siteData.experienceWork || []));
+  draftExpEdu = JSON.parse(JSON.stringify(siteData.experienceEdu || []));
+  draftReviews = JSON.parse(JSON.stringify(siteData.reviews || []));
+  draftPricing = JSON.parse(JSON.stringify(siteData.pricing || []));
+  draftFaqs = JSON.parse(JSON.stringify(siteData.faqs || []));
+  renderTextsEditor();
+  renderCategoriesEditor();
+  renderServicesEditor();
+  renderSkillsEditor();
+  renderProjectsEditor();
+  renderExpEditor(draftExpWork, "#expWorkEditor", "work");
+  renderExpEditor(draftExpEdu, "#expEduEditor", "edu");
+  renderReviewsEditor();
+  renderPricingEditor();
+  renderFaqEditor();
+  await refreshLeads();
+  status("✅ Loaded","success");
+}
+async function initAdmin(){
+  initTabs();
+  $("#apiUrlShow").value = API_URL;
+  $("#tokenShow").value = ADMIN_TOKEN;
+  await refreshFromSheet();
+}
+
+$("#loginForm").addEventListener("submit", e=>{
+  e.preventDefault();
+  if (auth.login($("#pass").value)){ auth.set(); showAdmin(); }
+  else $("#loginError").style.display = "block";
+});
+$("#logoutBtn")?.addEventListener("click", ()=>{ auth.clear(); showLogin(); });
+$("#themeToggle")?.addEventListener("click", ()=>{
+  const cur = document.documentElement.getAttribute("data-theme");
+  const next = cur === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", next);
+  localStorage.setItem(KEY_THEME, next);
+});
+$("#refreshBtn")?.addEventListener("click", refreshFromSheet);
+
+$("#saveProfile")?.addEventListener("click", async ()=>{
+  const profile = {
+    image: $("#p_image").value.trim(),
+    name: $("#p_name").value.trim(),
+    role_bn: $("#p_role_bn").value.trim(), role_en: $("#p_role_en").value.trim(),
+    bio_bn: $("#p_bio_bn").value.trim(), bio_en: $("#p_bio_en").value.trim(),
+    typed_roles_bn: $("#p_typed_bn").value.trim(), typed_roles_en: $("#p_typed_en").value.trim(),
+    facebook_url: $("#p_facebook").value.trim(),
+    linkedin_url: $("#p_linkedin").value.trim(),
+    email: $("#p_email").value.trim(), phone: $("#p_phone").value.trim(),
+    whatsapp: $("#p_whatsapp").value.trim(), location: $("#p_location").value.trim(),
+    stats: {
+      projects: $("#s_projects").value.trim(), clients: $("#s_clients").value.trim(),
+      years: $("#s_years").value.trim(), awards: $("#s_awards").value.trim()
+    }
+  };
+  const ok = await saveProfileRemote(profile);
+  if (ok) siteData.profile = profile;
+});
+
+$("#saveTexts")?.addEventListener("click", ()=> saveTextsRemote(draftTexts));
+$("#saveCategories")?.addEventListener("click", ()=> saveSection("Categories", draftCategories));
+$("#saveServices")?.addEventListener("click", ()=> saveSection("Services", draftServices));
+$("#saveSkills")?.addEventListener("click", ()=> saveSection("Skills", draftSkills));
+$("#saveProjects")?.addEventListener("click", ()=> saveSection("Projects", draftProjects));
+$("#saveExpWork")?.addEventListener("click", ()=> saveSection("Experience", draftExpWork.map(x=>({...x, type:"work"}))));
+$("#saveExpEdu")?.addEventListener("click", ()=> saveSection("Experience", draftExpEdu.map(x=>({...x, type:"education"}))));
+$("#saveReviews")?.addEventListener("click", ()=> saveSection("Reviews", draftReviews));
+$("#savePricing")?.addEventListener("click", ()=> saveSection("Pricing", draftPricing));
+$("#saveFaq")?.addEventListener("click", ()=> saveSection("FAQ", draftFaqs));
+
+$("#addCategory")?.addEventListener("click", ()=>{ draftCategories.push({ name_bn:"", name_en:"", slug:"" }); renderCategoriesEditor(); });
+$("#addService")?.addEventListener("click", ()=>{ draftServices.push({ icon:"★", title_bn:"", title_en:"", desc_bn:"", desc_en:"", price:"", per_bn:"", per_en:"", popular:false }); renderServicesEditor(); });
+$("#addSkill")?.addEventListener("click", ()=>{ draftSkills.push({ name:"", percent:80 }); renderSkillsEditor(); });
+$("#addProject")?.addEventListener("click", ()=>{ draftProjects.push({ title_bn:"", title_en:"", desc_bn:"", desc_en:"", category:"", thumb:"", image:"", link:"" }); renderProjectsEditor(); });
+$("#addExpWork")?.addEventListener("click", ()=>{ draftExpWork.push({ year:"", title_bn:"", title_en:"", sub_bn:"", sub_en:"", desc_bn:"", desc_en:"" }); renderExpEditor(draftExpWork, "#expWorkEditor", "work"); });
+$("#addExpEdu")?.addEventListener("click", ()=>{ draftExpEdu.push({ year:"", title_bn:"", title_en:"", sub_bn:"", sub_en:"", desc_bn:"", desc_en:"" }); renderExpEditor(draftExpEdu, "#expEduEditor", "edu"); });
+$("#addReview")?.addEventListener("click", ()=>{ draftReviews.push({ name:"", role_bn:"", role_en:"", text_bn:"", text_en:"" }); renderReviewsEditor(); });
+$("#addPricing")?.addEventListener("click", ()=>{ draftPricing.push({ title_bn:"", title_en:"", price:"", per_bn:"", per_en:"", features_bn:[], features_en:[], popular:false }); renderPricingEditor(); });
+$("#addFaq")?.addEventListener("click", ()=>{ draftFaqs.push({ q_bn:"", q_en:"", a_bn:"", a_en:"" }); renderFaqEditor(); });
+
+$("#savePass")?.addEventListener("click", ()=>{
+  const np = $("#newPass").value.trim();
+  if (!np || np.length < 4){ alert("Min 4 characters."); return; }
+  localStorage.setItem(KEY_PASS, np);
+  $("#newPass").value = "";
+  alert("Password updated.");
+});
+
+$("#exportLeads")?.addEventListener("click", ()=>{
+  const leads = siteData.leads || [];
+  if (!leads.length){ alert("No leads."); return; }
+  const csv = [["Name","Phone","Email","Service","Message","Date","Status"],
+    ...leads.map(l=>[l.name,l.phone,l.email,l.service,l.message,l.date,l.status])]
+    .map(r=>r.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(",")).join("\n");
+  const blob = new Blob([csv], { type:"text/csv;charset=utf-8" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = "mahim-leads.csv"; a.click();
+});
+
+(function boot(){
+  const theme = localStorage.getItem(KEY_THEME) || "dark";
+  document.documentElement.setAttribute("data-theme", theme);
+  if (auth.isLoggedIn()) showAdmin(); else showLogin();
+})();
+</script>
+</body>
+</html>
